@@ -4,6 +4,7 @@ import InviteModal from '@/components/modals/invite-modal';
 import CreateServerModal from '@/components/modals/create-server-modal';
 import EditServerModal from '@/components/modals/edit-server-modal';
 import MemberModal from '@/components/modals/members-modal';
+import CreateChannelModal from '@/components/modals/create-channel-modal';
 
 export const ModalProvider = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,6 +21,7 @@ export const ModalProvider = () => {
       <InviteModal />
       <EditServerModal />
       <MemberModal />
+      <CreateChannelModal />
     </>
   );
 };
