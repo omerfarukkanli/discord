@@ -14,7 +14,7 @@ const InviteCodePage = async ({ params }: InviteCodePageProps) => {
   const { inviteCode } = await params;
 
   if (!profile) return <RedirectToSignIn />;
-  if (!params.inviteCode) return redirect('/');
+  if (!inviteCode) return redirect('/');
 
   const existingServer = await db.server.findFirst({
     where: {
