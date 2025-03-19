@@ -38,7 +38,7 @@ export const NavigationItem = ({ id, imageUrl, name }: NavigationItemProps) => {
                 : 'rounded-[24px]'
             )}
           >
-            <Image fill src={imageUrl} alt='Channel' />
+            <Image priority fill sizes='100%' src={imageUrl} alt='Channel' />
           </div>
         </button>
       </ActoionTooltip>

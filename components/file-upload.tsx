@@ -15,7 +15,14 @@ const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
   if (value && fileType !== 'pdf') {
     return (
       <div className='relative h-20 w-20'>
-        <Image src={value} alt='Upload' className='rounded-full' fill />
+        <Image
+          priority
+          src={value}
+          alt='Upload'
+          className='rounded-full'
+          fill
+          sizes='100%'
+        />
         <button
           onClick={() => {}}
           className='bg-rose-500 text-white p-1 rounded-full absolute top-0 right-0 shadow-sm'
@@ -32,7 +39,7 @@ const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
         className='bg-indigo-500 text-white hover:bg-indigo-500/90 py-2 px-4 rounded-md'
         endpoint={endpoint}
         onClientUploadComplete={(res) => {
-          onChange(res?.[0].url);
+          onChange(res?.[0].ufsUrl);
         }}
         onUploadError={(error) => {
           console.log(error.message);
