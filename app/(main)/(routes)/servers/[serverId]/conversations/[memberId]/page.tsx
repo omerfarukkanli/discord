@@ -22,7 +22,7 @@ const MemberIdPage = async ({ params }: MemberIdPageProps) => {
       profileId: profile.id,
     },
     include: {
-      Profile: true,
+      profile: true,
     },
   });
   if (!currentMember) redirect('/');
@@ -42,9 +42,9 @@ const MemberIdPage = async ({ params }: MemberIdPageProps) => {
   return (
     <div className='bg-white dark:bg-[#313338] flex flex-col h-full'>
       <ChatHeader
-        imageUrl={otherMember.Profile.imageUrl}
+        imageUrl={otherMember.profile.imageUrl}
         serverId={serverId}
-        name={otherMember.Profile.name}
+        name={otherMember.profile.name}
         type='conversation'
       />
     </div>

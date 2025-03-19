@@ -4,7 +4,7 @@ import { NextApiResponse } from 'next';
 import { Server as ServerIOServer } from 'socket.io';
 
 export type ServerWithMembersWithProfiles = Server & {
-  members: (Member & { Profile: Profile })[];
+  members: (Member & { profile: Profile })[];
 };
 
 export type NextApiResponseServerIo = NextApiResponse & {

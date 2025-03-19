@@ -44,7 +44,7 @@ const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
       },
       members: {
         include: {
-          Profile: true,
+          profile: true,
         },
         orderBy: {
           role: 'asc',
@@ -111,7 +111,7 @@ const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
                 type: 'member',
                 data: members?.map((member) => ({
                   id: member.id,
-                  name: member.Profile.name,
+                  name: member.profile.name,
                   icon: roleIconMap[member.role],
                 })),
               },

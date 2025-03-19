@@ -37,7 +37,7 @@ export async function DELETE(
       include: {
         members: {
           include: {
-            Profile: true,
+            profile: true,
           },
           orderBy: {
             role: 'asc',
@@ -93,7 +93,7 @@ export async function PATCH(
       include: {
         members: {
           include: {
-            Profile: true,
+            profile: true,
           },
           orderBy: {
             role: 'asc',
