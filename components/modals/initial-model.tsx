@@ -86,7 +86,7 @@ const InitialModal = () => {
                   control={form.control}
                   name='image'
                   render={({ field }) => (
-                    <FormItem className='w-full flex flex-col items-center justify-center'>
+                    <FormItem>
                       <FormControl>
                         <FileUpload
                           endpoint='serverImage'

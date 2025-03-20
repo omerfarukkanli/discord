@@ -1,9 +1,9 @@
 'use client';
-import { useEffect, useState } from 'react';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import qs from 'query-string';
 
 import {
   Dialog,
@@ -13,36 +13,28 @@ import {
   DialogContent,
   DialogFooter,
 } from '@/components/ui/dialog';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import FileUpload from '@/components/file-upload';
 import { useRouter } from 'next/navigation';
 import { useModalStore } from '@/hooks/use-modal-store';
 
 const formSchema = z.object({
-  image: z.string().min(1, {
-    message: 'Image is required',
+  fileUrl: z.string().min(1, {
+    message: 'Attachments is required',
   }),
 });
 
 const MessageFileModal = () => {
   const { isOpen, onClose, type, data } = useModalStore();
   const router = useRouter();
-
+  const { apiUrl, query } = data;
   const isModalOpen = isOpen && type === 'messageFile';
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      image: '',
+      fileUrl: '',
     },
   });
 
@@ -50,11 +42,18 @@ const MessageFileModal = () => {
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      await axios.post('/api/servers', data);
+      const url = qs.stringifyUrl({
+        url: apiUrl as string,
+        query,
+      });
+      await axios.post(url, {
+        ...data,
+        content: data.fileUrl,
+      });
 
       form.reset();
       router.refresh();
-      window.location.reload();
+      handleClose();
     } catch (error) {
       console.log(error);
     }
@@ -82,12 +81,12 @@ const MessageFileModal = () => {
               <div className='flex items-center justify-center text-center'>
                 <FormField
                   control={form.control}
-                  name='image'
+                  name='fileUrl'
                   render={({ field }) => (
-                    <FormItem className='w-full flex flex-col items-center justify-center'>
+                    <FormItem>
                       <FormControl>
                         <FileUpload
-                          endpoint='serverImage'
+                          endpoint='messageFile'
                           value={field.value}
                           onChange={field.onChange}
                         />
@@ -99,7 +98,7 @@ const MessageFileModal = () => {
             </div>
             <DialogFooter className='bg-gray-100 px-6 py-4'>
               <Button disabled={isLoading} variant='primary'>
-                Create
+                Send
               </Button>
             </DialogFooter>
           </form>
