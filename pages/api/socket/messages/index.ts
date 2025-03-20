@@ -1,7 +1,7 @@
 import { currentProfilePages } from '@/lib/current-profile-pages';
 import { db } from '@/lib/db';
 import { NextApiResponseServerIo } from '@/types';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequest } from 'next';
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,7 +12,7 @@ export default async function handler(
 
   try {
     const proifle = await currentProfilePages(req);
-    const { content, fileUrl } = req.body;
+    const { content, fileUrl, fileType } = req.body;
     const { channelId, serverId } = req.query;
     if (!proifle) return res.status(401).json({ error: 'Unauthorized' });
     if (!channelId || !serverId)
@@ -53,6 +53,7 @@ export default async function handler(
       data: {
         content,
         fileUrl,
+        fileType,
         channelId: channel.id as string,
         memberId: member.id,
       },

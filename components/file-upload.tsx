@@ -5,16 +5,17 @@ import Image from 'next/image';
 import { UploadDropzone } from '@/lib/uploadthing';
 import { useState } from 'react';
 import { Upload, FileCheck, Loader2 } from 'lucide-react';
+
 interface FileUploadProps {
-  onChange: (url?: string) => void;
+  onChange: (url?: string, type?: string) => void;
   value: string;
   endpoint: 'messageFile' | 'serverImage';
 }
 
 const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
   const [isUploading, setIsUploading] = useState(false);
-  const [fileName, setFileName] = useState('');
   const [fileSelected, setFileSelected] = useState(false);
+  const [fileName, setFileName] = useState('');
   const fileType = fileName.split('.').pop();
 
   if (value && fileType !== 'pdf') {
@@ -31,7 +32,6 @@ const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
         <button
           onClick={() => {
             onChange('');
-            setFileName('');
             setFileSelected(false);
           }}
           className='bg-rose-500 text-white p-1 rounded-full absolute top-0 right-0 shadow-sm'
@@ -58,7 +58,6 @@ const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
         <button
           onClick={() => {
             onChange('');
-            setFileName('');
             setFileSelected(false);
           }}
           className='bg-rose-500 text-white p-1 rounded-full absolute -top-2 -right-2 shadow-sm'
@@ -76,9 +75,10 @@ const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
         endpoint={endpoint}
         onClientUploadComplete={(res) => {
           setIsUploading(false);
-          setFileName(res?.[0]?.name);
           setFileSelected(false);
-          onChange(res?.[0].ufsUrl);
+
+          setFileName(res[0].name);
+          onChange(res[0].url, res[0].type);
         }}
         onUploadBegin={() => {
           setIsUploading(true);

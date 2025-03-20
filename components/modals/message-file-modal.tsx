@@ -21,8 +21,9 @@ import { useModalStore } from '@/hooks/use-modal-store';
 
 const formSchema = z.object({
   fileUrl: z.string().min(1, {
-    message: 'Attachments is required',
+    message: 'Attachment is required',
   }),
+  fileType: z.string().optional(),
 });
 
 const MessageFileModal = () => {
@@ -35,9 +36,9 @@ const MessageFileModal = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       fileUrl: '',
+      fileType: '',
     },
   });
-
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
@@ -49,6 +50,7 @@ const MessageFileModal = () => {
       await axios.post(url, {
         ...data,
         content: data.fileUrl,
+        fileType: data.fileType,
       });
 
       form.reset();
@@ -62,6 +64,11 @@ const MessageFileModal = () => {
   const handleClose = () => {
     onClose();
     form.reset();
+  };
+
+  const handleFileChange = (url: string, type: string) => {
+    form.setValue('fileUrl', url);
+    form.setValue('fileType', type);
   };
 
   return (
@@ -88,7 +95,9 @@ const MessageFileModal = () => {
                         <FileUpload
                           endpoint='messageFile'
                           value={field.value}
-                          onChange={field.onChange}
+                          onChange={(url, type) =>
+                            handleFileChange(url!, type!)
+                          }
                         />
                       </FormControl>
                     </FormItem>

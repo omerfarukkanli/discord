@@ -72,7 +72,6 @@ const ChatMessages = ({
       </div>
     );
   }
-
   return (
     <div className='flex-1 flex flex-col overflow-y-auto'>
       <div className='flex-1' />
@@ -89,6 +88,7 @@ const ChatMessages = ({
                 id={message.id}
                 content={message.content}
                 fileUrl={message.fileUrl}
+                fileType={message.fileType}
                 deleted={message.deleted}
                 timestamp={format(new Date(message.createdAt), DATE_FORMAT)}
                 isUpdated={message.updatedAt !== message.createdAt}
