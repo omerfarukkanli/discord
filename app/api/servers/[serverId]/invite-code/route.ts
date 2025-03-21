@@ -8,7 +8,7 @@ export async function PATCH(
   {
     params,
   }: {
-    params: { serverId: string };
+    params: Promise<{ serverId: string }>;
   }
 ) {
   try {

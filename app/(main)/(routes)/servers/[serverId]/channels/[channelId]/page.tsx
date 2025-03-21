@@ -10,10 +10,10 @@ import { redirect } from 'next/navigation';
 import React from 'react';
 
 interface ChannelIdPageProps {
-  params: {
+  params: Promise<{
     serverId: string;
     channelId: string;
-  };
+  }>;
 }
 
 const ChannelIdPage = async ({ params }: ChannelIdPageProps) => {
