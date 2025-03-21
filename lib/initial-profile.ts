@@ -9,7 +9,7 @@ export const initialProfile = async () => {
 
   const profile = await db.profile.findUnique({
     where: {
-      userId: user.id, // Changed from id to userId
+      userId: user.id,
     },
   });
 

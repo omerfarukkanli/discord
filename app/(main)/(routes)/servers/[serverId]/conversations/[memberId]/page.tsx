@@ -5,7 +5,7 @@ import { MediaRoom } from '@/components/media-room';
 import { getOrCreateConversation } from '@/lib/conversation';
 import { currentProfile } from '@/lib/current-profile';
 import { db } from '@/lib/db';
-import { RedirectToSignIn } from '@clerk/nextjs';
+import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 
 interface MemberIdPageProps {
@@ -21,7 +21,8 @@ const MemberIdPage = async ({ params, searchParams }: MemberIdPageProps) => {
   const { serverId, memberId } = await params;
   const { video } = await searchParams;
   const profile = await currentProfile();
-  if (!profile) return <RedirectToSignIn />;
+  const { redirectToSignIn } = await auth();
+  if (!profile) return redirectToSignIn();
 
   const currentMember = await db.member.findFirst({
     where: {

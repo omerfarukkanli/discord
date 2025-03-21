@@ -1,7 +1,8 @@
 import ServerSidebar from '@/components/server/server-sidebar';
 import { currentProfile } from '@/lib/current-profile';
 import { db } from '@/lib/db';
-import { RedirectToSignIn } from '@clerk/nextjs';
+import { auth } from '@clerk/nextjs/server';
+
 import { redirect } from 'next/navigation';
 import React from 'react';
 
@@ -15,8 +16,9 @@ const ServerIdLayout = async ({
   };
 }) => {
   const profile = await currentProfile();
+  const { redirectToSignIn } = await auth();
 
-  if (!profile) return <RedirectToSignIn />;
+  if (!profile) return redirectToSignIn();
 
   const { serverId } = await params;
 
